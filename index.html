@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Notas</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  /* Common style patterns */
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+
+  /* RGB versions for opacity control */
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
+    format('woff2');
+}
+
+/* Base styles */
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+}
+h2 {
+  font-size: var(--font-size-3xl);
+}
+h3 {
+  font-size: var(--font-size-2xl);
+}
+
+/* Custom styles for the calculator */
+.app-container {
+    min-height: 100vh;
+    padding: var(--space-20);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: var(--space-32);
+    width: 100%;
+    max-width: 500px;
+}
+
+.app-header h1 {
+    color: var(--color-primary);
+    margin-bottom: var(--space-8);
+}
+
+.app-header p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    margin: 0;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 500px;
+}
+
+.screen.active {
+    display: block;
+}
+
+.choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+}
+
+.choice-btn {
+    background: var(--color-surface);
+    border: 2px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-24);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.choice-btn:hover {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.choice-btn:active {
+    transform: translateY(0);
+}
+
+.calculator-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-24);
+    box-shadow: var(--shadow-md);
+}
+
+.card-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-20);
+    color: var(--color-text);
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: var(--space-20);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-8);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-12) var(--space-16);
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-base);
+    transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+}
+
+.form-input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.error-message {
+    color: var(--color-error);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-8);
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin-top: var(--space-24);
+}
+
+.btn {
+    padding: var(--space-16) var(--space-24);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    border: none;
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+    background: var(--color-primary-active);
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--color-secondary);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    background: var(--color-secondary-hover);
+}
+
+.btn-secondary:active {
+    background: var(--color-secondary-active);
+}
+
+.result-container {
+    text-align: center;
+}
+
+.result-status {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-20);
+    padding: var(--space-16);
+    border-radius: var(--radius-md);
+}
+
+.result-status.approved {
+    color: var(--color-success);
+    background: rgba(var(--color-success-rgb), 0.1);
+    border: 2px solid var(--color-success);
+}
+
+.result-status.exam {
+    color: var(--color-warning);
+    background: rgba(var(--color-warning-rgb), 0.1);
+    border: 2px solid var(--color-warning);
+}
+
+.result-status.failed {
+    color: var(--color-error);
+    background: rgba(var(--color-error-rgb), 0.1);
+    border: 2px solid var(--color-error);
+}
+
+.result-details {
+    background: var(--color-background);
+    padding: var(--space-20);
+    border-radius: var(--radius-base);
+    margin-bottom: var(--space-20);
+    border: 1px solid var(--color-card-border);
+}
+
+.result-details p {
+    margin: var(--space-8) 0;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+}
+
+.result-details strong {
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+}
+
+.result-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin: var(--space-24) auto;
+    display: block;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .app-container {
+        padding: var(--space-32);
+    }
+
+    .app-header h1 {
+        font-size: 36px;
+    }
+
+    .button-group {
+        flex-direction: row;
+    }
+
+    .button-group .btn {
+        flex: 1;
+    }
+}
+
+/* Loading state */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <h1>📊 Calculadora de Notas</h1>
+            <p>Descubra sua situação acadêmica de forma rápida e prática</p>
+        </div>
+
+        <!-- Initial Choice Screen -->
+        <div id="choiceScreen" class="screen active">
+            <div class="choice-buttons">
+                <button class="choice-btn" onclick="showCalculator('np')">
+                    📝 Calcular Média (NP1 + NP2)
+                </button>
+                <button class="choice-btn" onclick="showCalculator('exam')">
+                    📚 Calcular Média Final (Exame)
+                </button>
+            </div>
+        </div>
+
+        <!-- NP1 + NP2 Calculator -->
+        <div id="npScreen" class="screen">
+            <div class="calculator-card">
+                <h2 class="card-title">Calcular Média (NP1 + NP2)</h2>
+                <form id="npForm" onsubmit="calculateNP(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="np1">Nota NP1 (0 a 10)</label>
+                        <input 
+                            type="number" 
+                            id="np1" 
+                            class="form-input" 
+                            placeholder="Ex: 7.5" 
+                            step="0.01" 
+                            min="0" 
+                            max="10"
+                            required
+                        >
+                        <div class="error-message" id="np1Error">Por favor, insira uma nota válida entre 0 e 10</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="np2">Nota NP2 (0 a 10)</label>
+                        <input 
+                            type="number" 
+                            id="np2" 
+                            class="form-input" 
+                            placeholder="Ex: 8.0" 
+                            step="0.01" 
+                            min="0" 
+                            max="10"
+                            required
+                        >
+                        <div class="error-message" id="np2Error">Por favor, insira uma nota válida entre 0 e 10</div>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="showChoice()">Voltar</button>
+                        <button type="submit" class="btn btn-primary">Calcular</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Exam Calculator -->
+        <div id="examScreen" class="screen">
+            <div class="calculator-card">
+                <h2 class="card-title">Calcular Média Final (Exame)</h2>
+                <form id="examForm" onsubmit="calculateExam(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="md">Média da Disciplina - MD (0 a 10)</label>
+                        <input 
+                            type="number" 
+                            id="md" 
+                            class="form-input" 
+                            placeholder="Ex: 5.5" 
+                            step="0.01" 
+                            min="0" 
+                            max="10"
+                            required
+                        >
+                        <div class="error-message" id="mdError">Por favor, insira uma média válida entre 0 e 10</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ex">Nota do Exame - EX (0 a 10)</label>
+                        <input 
+                            type="number" 
+                            id="ex" 
+                            class="form-input" 
+                            placeholder="Ex: 6.0" 
+                            step="0.01" 
+                            min="0" 
+                            max="10"
+                            required
+                        >
+                        <div class="error-message" id="exError">Por favor, insira uma nota válida entre 0 e 10</div>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="showChoice()">Voltar</button>
+                        <button type="submit" class="btn btn-primary">Calcular</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="screen">
+            <div class="calculator-card">
+                <div class="result-container">
+                    <div id="resultStatus" class="result-status"></div>
+                    <div id="resultDetails" class="result-details"></div>
+                    <img id="resultImage" class="result-image" src="" alt="Resultado">
+                    <button class="btn btn-primary" onclick="showChoice()" style="margin-top: var(--space-24); width: 100%;">Nova Consulta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Screen management
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showChoice() {
+            // Reset forms
+            document.getElementById('npForm').reset();
+            document.getElementById('examForm').reset();
+            // Hide error messages
+            document.querySelectorAll('.error-message').forEach(msg => {
+                msg.classList.remove('show');
+            });
+            showScreen('choiceScreen');
+        }
+
+        function showCalculator(type) {
+            if (type === 'np') {
+                showScreen('npScreen');
+            } else {
+                showScreen('examScreen');
+            }
+        }
+
+        // Validation functions
+        function validateInput(value, errorElementId) {
+            const num = parseFloat(value);
+            const errorElement = document.getElementById(errorElementId);
+            
+            if (isNaN(num) || num < 0 || num > 10) {
+                errorElement.classList.add('show');
+                return false;
+            }
+            errorElement.classList.remove('show');
+            return true;
+        }
+
+        // NP1 + NP2 Calculation
+        function calculateNP(event) {
+            event.preventDefault();
+            
+            const np1 = document.getElementById('np1').value;
+            const np2 = document.getElementById('np2').value;
+            
+            // Validate inputs
+            const valid1 = validateInput(np1, 'np1Error');
+            const valid2 = validateInput(np2, 'np2Error');
+            
+            if (!valid1 || !valid2) {
+                return;
+            }
+            
+            const np1Value = parseFloat(np1);
+            const np2Value = parseFloat(np2);
+            
+            // Calculate MD
+            let md = (np1Value + np2Value) / 2;
+            
+            // Apply rounding rule: If MD >= 6.7 and MD < 7.0, round to 7.0
+            if (md >= 6.7 && md < 7.0) {
+                md = 7.0;
+            }
+            
+            // Display result
+            displayNPResult(md);
+        }
+
+        function displayNPResult(md) {
+            const statusElement = document.getElementById('resultStatus');
+            const detailsElement = document.getElementById('resultDetails');
+            const imageElement = document.getElementById('resultImage');
+            
+            let statusText, statusClass, imageSrc, detailsHTML;
+            
+            if (md >= 7.0) {
+                // Approved
+                statusText = '🎉 Aprovado!';
+                statusClass = 'approved';
+                imageSrc = 'https://raw.githubusercontent.com/AbnerLMachado/calculanota/refs/heads/main/passou.jpg';
+                detailsHTML = `
+                    <p>Sua média final é: <strong>${md.toFixed(2)}</strong></p>
+                    <p>Parabéns! Você foi aprovado sem necessidade de exame! 🎊</p>
+                `;
+            } else {
+                // Needs exam
+                statusText = '⚠️ Exame Necessário';
+                statusClass = 'exam';
+                imageSrc = 'https://raw.githubusercontent.com/AbnerLMachado/calculanota/refs/heads/main/exame.jpg';
+                const minExamGrade = 10 - md;
+                detailsHTML = `
+                    <p>Sua média da disciplina é: <strong>${md.toFixed(2)}</strong></p>
+                    <p>Você precisará fazer o exame.</p>
+                    <p>Para ser aprovado, você precisa tirar pelo menos <strong>${minExamGrade.toFixed(2)}</strong> no exame.</p>
+                    <p>Lembre-se: sua média final (MF) deve ser ≥ 5.0</p>
+                `;
+            }
+            
+            statusElement.textContent = statusText;
+            statusElement.className = 'result-status ' + statusClass;
+            detailsElement.innerHTML = detailsHTML;
+            imageElement.src = imageSrc;
+            imageElement.alt = statusText;
+            
+            showScreen('resultScreen');
+        }
+
+        // Exam Calculation
+        function calculateExam(event) {
+            event.preventDefault();
+            
+            const md = document.getElementById('md').value;
+            const ex = document.getElementById('ex').value;
+            
+            // Validate inputs
+            const validMD = validateInput(md, 'mdError');
+            const validEX = validateInput(ex, 'exError');
+            
+            if (!validMD || !validEX) {
+                return;
+            }
+            
+            const mdValue = parseFloat(md);
+            const exValue = parseFloat(ex);
+            
+            // Calculate MF
+            let mf = (mdValue + exValue) / 2;
+            
+            // Apply rounding rule: If MF >= 4.75 and MF < 5.0, round to 5.0
+            if (mf >= 4.75 && mf < 5.0) {
+                mf = 5.0;
+            }
+            
+            // Display result
+            displayExamResult(mf, mdValue, exValue);
+        }
+
+        function displayExamResult(mf, md, ex) {
+            const statusElement = document.getElementById('resultStatus');
+            const detailsElement = document.getElementById('resultDetails');
+            const imageElement = document.getElementById('resultImage');
+            
+            let statusText, statusClass, imageSrc, detailsHTML;
+            
+            if (mf >= 5.0) {
+                // Approved
+                statusText = '🎉 Aprovado!';
+                statusClass = 'approved';
+                imageSrc = 'https://raw.githubusercontent.com/AbnerLMachado/calculanota/refs/heads/main/passou.jpg';
+                detailsHTML = `
+                    <p>Média da Disciplina (MD): <strong>${md.toFixed(2)}</strong></p>
+                    <p>Nota do Exame (EX): <strong>${ex.toFixed(2)}</strong></p>
+                    <p>Média Final (MF): <strong>${mf.toFixed(2)}</strong></p>
+                    <p>Parabéns! Você foi aprovado após o exame! 🎊</p>
+                `;
+            } else {
+                // Failed (DP)
+                statusText = '❌ Reprovado - DP';
+                statusClass = 'failed';
+                imageSrc = 'https://raw.githubusercontent.com/AbnerLMachado/calculanota/refs/heads/main/reprovou.jpg';
+                detailsHTML = `
+                    <p>Média da Disciplina (MD): <strong>${md.toFixed(2)}</strong></p>
+                    <p>Nota do Exame (EX): <strong>${ex.toFixed(2)}</strong></p>
+                    <p>Média Final (MF): <strong>${mf.toFixed(2)}</strong></p>
+                    <p>Infelizmente, você ficou em DP. A média final mínima necessária era 5.0</p>
+                `;
+            }
+            
+            statusElement.textContent = statusText;
+            statusElement.className = 'result-status ' + statusClass;
+            detailsElement.innerHTML = detailsHTML;
+            imageElement.src = imageSrc;
+            imageElement.alt = statusText;
+            
+            showScreen('resultScreen');
+        }
+    </script>
+</body>
+</html>
